@@ -1,7 +1,15 @@
-import { View, Text as NativeText } from "react-native";
+import {
+  View,
+  Text as NativeText,
+  TextProps as NativeTextProps,
+} from "react-native";
 import React from "react";
 
-export default function Text({ children, style, weight, ...props }) {
+type TextProps = {
+  weight: "400" | "700";
+} & NativeTextProps;
+
+export default function Text({ children, style, weight, ...props }: TextProps) {
   let fontFamily;
 
   if (weight === "400") {
