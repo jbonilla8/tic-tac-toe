@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { loadAsync } from "expo-font";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Text } from "@components";
 import {
   IBMPlexMono_400Regular,
   IBMPlexMono_700Bold,
@@ -51,10 +52,7 @@ export default function App() {
 
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
-      <Text
-        style={{ fontSize: 40, fontFamily: "IBMPlexMono_400Regular" }}
-        onPress={() => alert(true)}
-      >
+      <Text style={{ fontSize: 40 }} onPress={() => alert(true)}>
         Hello World
       </Text>
     </View>
