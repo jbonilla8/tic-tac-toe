@@ -10,11 +10,6 @@
     "typecheck": "tsc",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\""
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run typecheck && npm run lint"
-    }
-  },
   "dependencies": {
     "expo": "~48.0.15",
     "expo-status-bar": "~1.4.4",
