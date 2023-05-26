@@ -52,7 +52,7 @@ export default function App() {
 
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
-      <Text style={{ fontSize: 40 }} onPress={() => alert(true)}>
+      <Text style={{ fontSize: 40 }} onPress={() => alert(true)} weight="700">
         Hello World
       </Text>
     </View>
