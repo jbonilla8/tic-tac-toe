@@ -3,13 +3,23 @@ import {
   Text as NativeText,
   TextProps as NativeTextProps,
 } from "react-native";
-import React from "react";
+import React, { ReactNode, ReactElement } from "react";
 
 type TextProps = {
   weight: "400" | "700";
+  children: ReactNode;
 } & NativeTextProps;
 
-export default function Text({ children, style, weight, ...props }: TextProps) {
+const defaultProps = {
+  weight: "400",
+};
+
+export default function Text({
+  children,
+  style,
+  weight,
+  ...props
+}: TextProps): ReactElement {
   let fontFamily;
 
   if (weight === "400") {
@@ -28,3 +38,5 @@ export default function Text({ children, style, weight, ...props }: TextProps) {
     </View>
   );
 }
+
+Text.defaultProps = defaultProps;
