@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import styles from "./singlePlayerGame.styles";
 import { GradientBackground } from "@components";
 import { Board } from "@components";
@@ -14,25 +14,32 @@ import {
 
 export default function SinglePlayerGame(): ReactElement {
   // prettier-ignore
-  const b: BoardState = [
-    "x", "x", "o", 
-    "o", "x", "x", 
-    "x", "o", "o"
-  ];
-  printFormattedBoard(b);
-  console.log(isTerminal(b));
-  // console.log(isEmpty(b));
-  // console.log(isFull(b));
-  // console.log(getAvailableMoves(b));
+  const [state, setState] = useState<BoardState>([
+    null, null, null,
+    null, null, null,
+    null, null, null
+  ]);
+
+  const handleOnCellPressed = (cell: number): void => {
+    // make a copy of the current state
+    const stateCopy: BoardState = [...state]; // copy current state
+
+    // return (don't allow input) if cell is already occupied or someone has won
+    if (stateCopy[cell] || isTerminal(stateCopy)) return; // extra check
+
+    stateCopy[cell] = "x"; // insert cell into stateCopy
+    setState(stateCopy); // update the state to the stateCopy
+  };
 
   return (
     <GradientBackground>
       <SafeAreaView style={styles.container}>
         <Board
-          onCellPressed={(index) => {
-            alert(index);
+          disabled={Boolean(isTerminal(state))} // disable buttons if isTerminal returns an object and not false
+          onCellPressed={(cell) => {
+            handleOnCellPressed(cell);
           }}
-          state={b}
+          state={state}
           size={300}
         />
       </SafeAreaView>

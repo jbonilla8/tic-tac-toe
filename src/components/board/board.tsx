@@ -6,12 +6,14 @@ import { BoardState } from "@utils";
 type BoardProps = {
   state: BoardState;
   size: number;
+  disabled?: boolean;
   onCellPressed?: (index: number) => void; // function that receives number as an argument and doesn't return anything
 };
 
 export default function Board({
   state,
   size,
+  disabled,
   onCellPressed,
 }: BoardProps): ReactElement {
   return (
@@ -27,6 +29,7 @@ export default function Board({
       {state.map((cell, index) => {
         return (
           <TouchableOpacity
+            disabled={cell !== null || disabled} //disable if current cell is not null or if disabled is passed from the Board component
             onPress={() => onCellPressed && onCellPressed(index)}
             style={{
               width: "33.333%",
