@@ -1,11 +1,10 @@
 import { View, TouchableOpacity } from "react-native";
 import React, { ReactElement } from "react";
 import Text from "../text/text";
-
-type Cell = "x" | "o" | null; // cell can only contain x, o, or empty
+import { BoardState } from "@utils";
 
 type BoardProps = {
-  state: [Cell, Cell, Cell, Cell, Cell, Cell, Cell, Cell, Cell]; // an array of 9 cells
+  state: BoardState;
   size: number;
   onCellPressed?: (index: number) => void; // function that receives number as an argument and doesn't return anything
 };
