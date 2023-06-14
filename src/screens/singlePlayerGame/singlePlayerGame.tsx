@@ -5,6 +5,7 @@ import { GradientBackground } from "@components";
 import { Board } from "@components";
 import { BoardState, isEmpty, isTerminal, getBestMove } from "@utils";
 import { Audio } from "expo-av";
+import * as Haptics from "expo-haptics";
 
 export default function SinglePlayerGame(): ReactElement {
   // prettier-ignore
@@ -39,6 +40,7 @@ export default function SinglePlayerGame(): ReactElement {
       symbol === "x"
         ? pop1SoundRef.current?.replayAsync()
         : pop2SoundRef.current?.replayAsync();
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     } catch (error) {
       console.log(error);
     }
