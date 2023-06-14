@@ -38,12 +38,8 @@ export const getBestMove = (
         const child: BoardState = [...state]; // copy current state
         child[index] = "x"; // insert x inside our available move
 
-        console.log(`Child board (x turn) (depth: ${depth}`);
-        printFormattedBoard(child);
-
         // call getBestMoveRecursive again for the available moves for the child nodes
         const childValue = getBestMoveRecursive(child, false, depth + 1, maxDepth);
-        console.log("childValue", childValue);
 
         // if of these childValues is better than the best number, we need to override the best value with this new best number
         best = Math.max(best, childValue);
@@ -59,8 +55,6 @@ export const getBestMove = (
             : `${index}`;
         }
       });
-      console.log("best", best);
-      console.log("childValues", childValues);
 
       if (depth === 0) {
         // check if it's not a recursive call
@@ -75,11 +69,8 @@ export const getBestMove = (
       getAvailableMoves(state).forEach((index) => {
         const child: BoardState = [...state];
         child[index] = "o";
-        console.log(`Child board (o turn) (depth: ${depth}`);
-        printFormattedBoard(child);
 
         const childValue = getBestMoveRecursive(child, true, depth + 1, maxDepth);
-        console.log("childValue", childValue);
 
         best = Math.min(best, childValue);
         if (depth === 0) {
@@ -88,8 +79,6 @@ export const getBestMove = (
             : `${index}`;
         }
       });
-      console.log("best", best);
-      console.log("childValues", childValues);
 
       if (depth === 0) {
         // check if it's not a recursive call
