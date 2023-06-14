@@ -63,7 +63,7 @@ export default function SinglePlayerGame(): ReactElement {
           setTurn("HUMAN");
         } else {
           // if the board is NOT empty and it is the bot's turn
-          const best = getBestMove(state, !isHumanMaximizing, 0, -1);
+          const best = getBestMove(state, !isHumanMaximizing, 0, 1);
           insertCell(best, isHumanMaximizing ? "o" : "x");
           setTurn("HUMAN");
         }
