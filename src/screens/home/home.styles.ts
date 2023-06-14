@@ -11,7 +11,8 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     buttons: {
-        marginTop: 40
+        marginTop: 40,
+        marginHorizontal: 20
     },
     button: {
         marginBottom: 20

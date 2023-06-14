@@ -8,7 +8,7 @@ button: {
     borderRadius: 40,
 },
 buttonText: { 
-    fontSize: 24, 
+    fontSize: 20, 
     color: "#004952",
     opacity: 1,
     textAlign: 'center'
