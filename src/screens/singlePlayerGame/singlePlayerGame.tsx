@@ -10,15 +10,17 @@ import {
   isFull,
   getAvailableMoves,
   isTerminal,
+  getBestMove,
 } from "@utils";
 
 export default function SinglePlayerGame(): ReactElement {
   // prettier-ignore
   const [state, setState] = useState<BoardState>([
     null, null, null,
-    null, null, null,
-    null, null, null
+    "o", null, "x",
+    "o", "o", "x"
   ]);
+  console.log("getBestMove", getBestMove(state, true));
 
   const handleOnCellPressed = (cell: number): void => {
     // make a copy of the current state
