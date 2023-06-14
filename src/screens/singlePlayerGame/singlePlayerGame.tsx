@@ -1,17 +1,10 @@
 import { SafeAreaView } from "react-native";
-import React, { ReactElement, useState, useEffect } from "react";
+import React, { ReactElement, useState, useEffect, useRef } from "react";
 import styles from "./singlePlayerGame.styles";
 import { GradientBackground } from "@components";
 import { Board } from "@components";
-import {
-  printFormattedBoard,
-  BoardState,
-  isEmpty,
-  isFull,
-  getAvailableMoves,
-  isTerminal,
-  getBestMove,
-} from "@utils";
+import { BoardState, isEmpty, isTerminal, getBestMove } from "@utils";
+import { Audio } from "expo-av";
 
 export default function SinglePlayerGame(): ReactElement {
   // prettier-ignore
@@ -27,6 +20,10 @@ export default function SinglePlayerGame(): ReactElement {
   );
 
   const [isHumanMaximizing, setIsHumanMaximizing] = useState<boolean>(true);
+
+  const pop1SoundRef = useRef<Audio.Sound | null>(null);
+  const pop2SoundRef = useRef<Audio.Sound | null>(null);
+
   const gameResult = isTerminal(state);
 
   const insertCell = (cell: number, symbol: "x" | "o"): void => {
@@ -36,6 +33,15 @@ export default function SinglePlayerGame(): ReactElement {
     if (stateCopy[cell] || isTerminal(stateCopy)) return; // extra check
     stateCopy[cell] = symbol; // insert cell into stateCopy
     setState(stateCopy); // update the state to the stateCopy
+
+    try {
+      // play audios
+      symbol === "x"
+        ? pop1SoundRef.current?.replayAsync()
+        : pop2SoundRef.current?.replayAsync();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleOnCellPressed = (cell: number): void => {
@@ -70,6 +76,27 @@ export default function SinglePlayerGame(): ReactElement {
       }
     }
   }, [state, turn]);
+
+  useEffect(() => {
+    // load sounds
+    const pop1SoundObject = new Audio.Sound();
+    const pop2SoundObject = new Audio.Sound();
+
+    const loadSounds = async () => {
+      await pop1SoundObject.loadAsync(require("@assets/pop_1.wav"));
+      pop1SoundRef.current = pop1SoundObject;
+      await pop2SoundObject.loadAsync(require("@assets/pop_2.wav"));
+      pop2SoundRef.current = pop2SoundObject;
+    };
+
+    loadSounds();
+
+    return () => {
+      // unload sounds when screen unmounts
+      pop1SoundObject && pop1SoundObject.unloadAsync();
+      pop2SoundRef && pop2SoundRef.unloadAsync();
+    };
+  }, []);
 
   return (
     <GradientBackground>
