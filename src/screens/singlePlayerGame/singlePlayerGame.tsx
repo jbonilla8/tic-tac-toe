@@ -114,6 +114,7 @@ export default function SinglePlayerGame(): ReactElement {
             handleOnCellPressed(cell);
           }}
           state={state}
+          gameResult={gameResult}
           size={300}
         />
       </SafeAreaView>
