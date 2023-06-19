@@ -3,7 +3,7 @@ import React, { ReactElement, useState, useEffect, useRef } from "react";
 import styles from "./singlePlayerGame.styles";
 import { GradientBackground } from "@components";
 import { Board } from "@components";
-import { BoardState, isEmpty, isTerminal, getBestMove } from "@utils";
+import { BoardState, isEmpty, isTerminal, getBestMove, Cell } from "@utils";
 import { Audio } from "expo-av";
 import * as Haptics from "expo-haptics";
 
@@ -24,6 +24,9 @@ export default function SinglePlayerGame(): ReactElement {
 
   const pop1SoundRef = useRef<Audio.Sound | null>(null);
   const pop2SoundRef = useRef<Audio.Sound | null>(null);
+  const winSoundRef = useRef<Audio.Sound | null>(null);
+  const lossSoundRef = useRef<Audio.Sound | null>(null);
+  const drawSoundRef = useRef<Audio.Sound | null>(null);
 
   const gameResult = isTerminal(state);
 
@@ -53,9 +56,49 @@ export default function SinglePlayerGame(): ReactElement {
     setTurn("BOT");
   };
 
+  const getWinner = (winnerSymbol: Cell): "HUMAN" | "BOT" | "DRAW" => {
+    if (winnerSymbol === "x") {
+      return isHumanMaximizing ? "HUMAN" : "BOT";
+    }
+
+    if (winnerSymbol === "o") {
+      return isHumanMaximizing ? "BOT" : "HUMAN";
+    }
+
+    return "DRAW";
+  };
+
   useEffect(() => {
     if (gameResult) {
       // handle game finished
+      const winner = getWinner(gameResult.winner);
+      if (winner === "HUMAN") {
+        try {
+          winSoundRef.current?.replayAsync();
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+          alert("You won!");
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      if (winner === "BOT") {
+        try {
+          lossSoundRef.current?.replayAsync();
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+          alert("You lost :(");
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      if (winner === "DRAW") {
+        try {
+          drawSoundRef.current?.replayAsync();
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+          alert("It's a tie!");
+        } catch (error) {
+          console.log(error);
+        }
+      }
       alert("GAME OVER");
     } else {
       if (turn === "BOT") {
@@ -83,12 +126,21 @@ export default function SinglePlayerGame(): ReactElement {
     // load sounds
     const pop1SoundObject = new Audio.Sound();
     const pop2SoundObject = new Audio.Sound();
+    const winSoundObject = new Audio.Sound();
+    const lossSoundObject = new Audio.Sound();
+    const drawSoundObject = new Audio.Sound();
 
     const loadSounds = async () => {
       await pop1SoundObject.loadAsync(require("@assets/pop_1.wav"));
       pop1SoundRef.current = pop1SoundObject;
       await pop2SoundObject.loadAsync(require("@assets/pop_2.wav"));
       pop2SoundRef.current = pop2SoundObject;
+      await winSoundObject.loadAsync(require("@assets/win.mp3"));
+      winSoundRef.current = winSoundObject;
+      await lossSoundObject.loadAsync(require("@assets/loss.mp3"));
+      lossSoundRef.current = lossSoundObject;
+      await drawSoundObject.loadAsync(require("@assets/draw.mp3"));
+      drawSoundRef.current = drawSoundObject;
     };
 
     loadSounds();
@@ -96,7 +148,10 @@ export default function SinglePlayerGame(): ReactElement {
     return () => {
       // unload sounds when screen unmounts
       pop1SoundObject && pop1SoundObject.unloadAsync();
-      pop2SoundRef && pop2SoundRef.unloadAsync();
+      pop2SoundObject && pop2SoundObject.unloadAsync();
+      winSoundObject && winSoundObject.unloadAsync();
+      lossSoundObject && lossSoundObject.unloadAsync();
+      drawSoundObject && drawSoundObject.unloadAsync();
     };
   }, []);
 
