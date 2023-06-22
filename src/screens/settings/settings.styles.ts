@@ -7,11 +7,11 @@ const styles = StyleSheet.create({
         paddingVertical: 40
     },
     field: {
-        marginBottom: 30
+        marginTop: 30
     },
     label: {
         color: colors.lightGreen,
-        fontSize: 18
+        fontSize: 18,
     },
     choicesListContainer: {
         flexDirection: 'row',
