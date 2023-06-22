@@ -1,20 +1,20 @@
 import React, { ReactElement, useEffect, useRef } from "react";
 import { View, StyleSheet, Animated } from "react-native";
-import { BoardResult } from "@utils";
+import { BoardResult, colors } from "@utils";
 
 const style = StyleSheet.create({
   line: {
     position: "absolute",
-    backgroundColor: "red",
+    backgroundColor: colors.lightPurple,
   },
   verticalLine: {
-    width: 2,
+    width: 4,
   },
   horizontalLine: {
-    height: 2,
+    height: 4,
   },
   diagonalLine: {
-    width: 2,
+    width: 4,
     top: 0,
     left: "50%",
   },

@@ -1,4 +1,4 @@
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, Dimensions } from "react-native";
 import React, { ReactElement, useState, useEffect } from "react";
 import styles from "./singlePlayerGame.styles";
 import { GradientBackground } from "@components";
@@ -11,6 +11,8 @@ import {
   Cell,
   useSounds,
 } from "@utils";
+
+const SCREEN_WIDTH = Dimensions.get("screen").width;
 
 export default function SinglePlayerGame(): ReactElement {
   // prettier-ignore
@@ -115,7 +117,7 @@ export default function SinglePlayerGame(): ReactElement {
           }}
           state={state}
           gameResult={gameResult}
-          size={300}
+          size={SCREEN_WIDTH - 60}
         />
       </SafeAreaView>
     </GradientBackground>
