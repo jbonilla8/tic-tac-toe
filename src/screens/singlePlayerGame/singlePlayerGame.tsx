@@ -11,6 +11,7 @@ import {
   Cell,
   useSounds,
 } from "@utils";
+import { useSettings, difficulties } from "@contexts/settings/settingsContext";
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 const randomPlayer = Math.random() < 0.5 ? "HUMAN" : "BOT";
@@ -34,6 +35,8 @@ export default function SinglePlayerGame(): ReactElement {
   });
 
   const playSound = useSounds();
+
+  const { settings } = useSettings();
 
   const gameResult = isTerminal(state);
 
@@ -107,7 +110,12 @@ export default function SinglePlayerGame(): ReactElement {
           setTurn("HUMAN");
         } else {
           // if the board is NOT empty and it is the bot's turn
-          const best = getBestMove(state, !isHumanMaximizing, 0, 1);
+          const best = getBestMove(
+            state,
+            !isHumanMaximizing,
+            0,
+            parseInt(settings ? settings.difficulty : "-1")
+          );
           insertCell(best, isHumanMaximizing ? "o" : "x");
           setTurn("HUMAN");
         }
@@ -119,7 +127,10 @@ export default function SinglePlayerGame(): ReactElement {
     <GradientBackground>
       <SafeAreaView style={styles.container}>
         <View>
-          <Text style={styles.difficulty}>Difficulty: Hard</Text>
+          <Text style={styles.difficulty}>
+            Difficulty:{" "}
+            {settings ? difficulties[settings.difficulty] : "Impossible"}
+          </Text>
           <View style={styles.results}>
             <View style={styles.resultsBox}>
               <Text style={styles.resultsTitle}>Wins</Text>
