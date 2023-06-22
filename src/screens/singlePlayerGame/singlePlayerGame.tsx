@@ -1,7 +1,7 @@
-import { SafeAreaView, Dimensions } from "react-native";
+import { SafeAreaView, Dimensions, View, Text } from "react-native";
 import React, { ReactElement, useState, useEffect } from "react";
 import styles from "./singlePlayerGame.styles";
-import { GradientBackground } from "@components";
+import { Button, GradientBackground } from "@components";
 import { Board } from "@components";
 import {
   BoardState,
@@ -110,6 +110,23 @@ export default function SinglePlayerGame(): ReactElement {
   return (
     <GradientBackground>
       <SafeAreaView style={styles.container}>
+        <View>
+          <Text style={styles.difficulty}>Difficulty: Hard</Text>
+          <View style={styles.results}>
+            <View style={styles.resultsBox}>
+              <Text style={styles.resultsTitle}>Wins</Text>
+              <Text style={styles.resultsCount}>0</Text>
+            </View>
+            <View style={styles.resultsBox}>
+              <Text style={styles.resultsTitle}>Draws</Text>
+              <Text style={styles.resultsCount}>0</Text>
+            </View>
+            <View style={styles.resultsBox}>
+              <Text style={styles.resultsTitle}>Losses</Text>
+              <Text style={styles.resultsCount}>0</Text>
+            </View>
+          </View>
+        </View>
         <Board
           disabled={Boolean(isTerminal(state)) || turn !== "HUMAN"} // disable buttons if isTerminal returns an object and not false, also if its the bot's turn
           onCellPressed={(cell) => {
@@ -119,6 +136,11 @@ export default function SinglePlayerGame(): ReactElement {
           gameResult={gameResult}
           size={SCREEN_WIDTH - 60}
         />
+
+        <View style={styles.modal}>
+          <Text style={styles.modalText}>You Won</Text>
+          <Button title="Play Again" style={{ paddingHorizontal: 40 }} />
+        </View>
       </SafeAreaView>
     </GradientBackground>
   );
