@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { loadAsync } from "expo-font";
-import { View } from "react-native";
 import Navigator from "@config/navigator";
 import {
   IBMPlexMono_400Regular,
   IBMPlexMono_700Bold,
 } from "@expo-google-fonts/ibm-plex-mono";
 import * as SplashScreen from "expo-splash-screen";
+import { SettingsProvider } from "@contexts/settings/settingsContext";
+
 SplashScreen.preventAutoHideAsync();
 SplashScreen.hideAsync();
 
@@ -51,7 +52,9 @@ export default function App() {
   }
 
   return (
-    // <View onLayout={onLayoutRootView}>
-    <Navigator />
+    <SettingsProvider>
+      {/* <View onLayout={onLayoutRootView}> */}
+      <Navigator />
+    </SettingsProvider>
   );
 }

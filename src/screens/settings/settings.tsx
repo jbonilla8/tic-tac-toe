@@ -10,6 +10,7 @@ import { GradientBackground, Text } from "@components";
 import styles from "./settings.styles";
 import { colors } from "@utils";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSettings } from "@contexts/settings/settingsContext";
 
 const difficulties = {
   "1": "Beginner",
@@ -32,6 +33,7 @@ const defaultSettings: SettingsType = {
 
 export default function Settings(): ReactElement | null {
   const [settings, setSettings] = useState<SettingsType | null>(null);
+  const context = useSettings();
 
   const saveSetting = async <T extends keyof SettingsType>(
     setting: T,
